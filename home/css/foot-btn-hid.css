@@ -1,0 +1,30 @@
+/* 默认隐藏 */
+.legal-panel {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    margin-top: 0;
+}
+
+/* 展开状态 */
+.legal-panel.open {
+    max-height: 1200px; /* 足够大，包住所有内容 */
+    opacity: 1;
+    margin-top: 1rem;
+}
+
+/* 按钮样式（可选，按你现有风格改） */
+.cyber-btn {
+    background: transparent;
+    border: 1px solid #00ffe0;
+    color: #00ffe0;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.cyber-btn:hover {
+    background: #00ffe0;
+    color: #000;
+}

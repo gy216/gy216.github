@@ -91,54 +91,25 @@
 </script>
     
     
-    
-    
-<!--这是webfontloader，果园创建  -->
-<script src="https://cdn.bootcdn.net/ajax/libs/webfont/1.6.28/webfontloader.js"></script>
+    <!--预加载资源，果园创建  -->
+	<link rel="preload" href="https://cdn.gybc.top/home/ZCOOLKuaiLe-Regular.woff2" as="font" type="font/woff2" crossorigin>
 
-<script>
-WebFont.load({
-  custom: {
-    families: ['ZCOOL KuaiLe'],
-    urls: ['https://fonts.font.im/css?family=ZCOOL+KuaiLe&display=swap']
-  },
-  active: function() {
-	 console.log('Webfontloader：🎉 自定义字体“ZCOOL KuaiLe”已成功加载并应用！');
-    // 字体加载成功后执行的回调函数
-  },
-  inactive: function() {
-   console.log('Webfontloader：🎉 自定义字体“ZCOOL KuaiLe”未成功加载');
-    // 字体加载失败后执行的回调函数
-  }
-});
-</script>
 
+<!--字体，果园创建V2.0  -->
 <style>
-    body {
-  font-family: Arial, sans-serif; /* 这是备用的安全字体 */
+@font-face {
+  font-family: 'ZCOOL KuaiLe';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap; /* 关键：字体没好就用后备字体 */
+  src: url('https://cdn.gybc.top/home/ZCOOLKuaiLe-Regular.woff2') format('woff2');/* 走CDN */
 }
 
-.wf-active body {
-  /* 此时，全局应用您想要的中文字体 */
+/* 全局使用 */
+body {
   font-family: 'ZCOOL KuaiLe', Arial, sans-serif;
 }
 </style>
-
-<!--注释内容  
-WebFont.load({
-  custom: {
-    families: ['ZCOOL KuaiLe'],
-    urls: ['ZCOOLFR.css']
-  },
-  active: function() {
-    // 字体加载成功后执行的回调函数
-  },
-  inactive: function() {
-    // 字体加载失败后执行的回调函数
-  }
-});
--->
-    
     
     
 
@@ -508,7 +479,7 @@ WebFont.load({
     <div id="cookieConsent" class="cookie-consent">
         <div class="cookie-content">
             <div class="cookie-text">
-                <p>我们在本网站上使用Cookie，包括第三方Cookie，以便网站正常工作并分析流量，提供增强的功能、社交媒体功能，以及个性化内容和广告。<br/> 
+                <p>我们在本网站上使用Cookie，包括第三方Cookie，以便网站正常工作并分析流量，提供增强的功能、社交媒体功能，以及个性化内容和广告。</br> 
                 </p>
             </div>
             <div class="cookie-buttons">
@@ -517,6 +488,8 @@ WebFont.load({
             </div>
         </div>
     </div>
+
+
 
     <!-- 通知系统 -->
     <div id="notification" class="cyber-notification">
@@ -619,19 +592,7 @@ WebFont.load({
       <p class="product-description">将Scratch作品打包成可执行文件，无需网络即可运行，完美保存您的创意成果。</p>
       <a href="/dabao" class="cyber-button small">使用工具</a>
     </div>
-    
-    <div class="product-card">
-      <div class="product-image">
-        <img src="#" alt="Timenotes" loading="lazy">
-      </div>
-      <h3 class="product-title">Timenotes</h3>
-      <span class="product-status status-RC">RC已发布</span>
-      <span class="product-status status-RC">成员个人作品</span>
-      <span class="product-status status-RC">Wails3</span>
-      <p class="product-description">从文字手绘到音视频、3D 模型与代码块，一切元素随心摆放，打造你的专属数字手账。</p>
-      <a href="#" class="cyber-button small">暂时无法访问</a>
-    </div>
-    
+
     
     
     <div class="product-card">
@@ -776,104 +737,215 @@ WebFont.load({
             <h3>关于我们</h3>
             <p>果园编程工作室，专注于编程领域，致力于在CCW平台创作与发布优质作品。</p>
             <p>我们的理念：用心每一作，发展每一天。</p>
-            <a href="/about" class="cyber-link">关于我们</a>
-            <br>
-            <a href="/csr" class="cyber-link">ESG与可持续发展</a>
-            <br>
+            <a href="/about" class="cyber-link">关于我们</a><br>
+            <a href="/csr" class="cyber-link">ESG与可持续发展</a><br>
             <a href="/integrity" class="cyber-link">廉洁举报</a>
         </div>
+
         <div class="footer-section">
             <h3>联系与社区</h3>
             <p>果园QQ: 386498317</p>
             <p>QQ群: 749914521</p>
             <br>
-            <a href="https://stats.uptimerobot.com/mcSvGD7BZX" class="cyber-link">服务状态 (Uptimerobot)</a>
-            <br>
-            <a href="https://app.pulsetic.com/status/T2LBjaIL/" class="cyber-link">服务状态 (Pulsetic)</a>
+            <a href="https://stats.uptimerobot.com/mcSvGD7BZX" class="cyber-link" target="_blank">服务状态 (Uptimerobot)</a><br>
+            <a href="https://app.pulsetic.com/status/T2LBjaIL/" class="cyber-link" target="_blank">服务状态 (Pulsetic)</a>
         </div>
+
         <div class="footer-section">
             <h3>项目与链接</h3>
-            <br>
             <p>友情链接</p>
-            <a href="/Public-welfare/Leaveyourmarkontheworld/cxy/" class="cyber-link">在世界留下你的痕迹-CXY</a>
-            <br>
-            <a href="https://gystu.top" class="cyber-link">果园编程副站</a>
-            <br>
-            <a href="https://caellab.com" class="cyber-link">虚舟实验室</a>
-            <br>
-            <a href="https://blog.aznb.top/" class="cyber-link">垃圾桶</a>
-            <br>
-            <a href="https://rottybun.com/" class="cyber-link">经开区实验中学</a>
-            <br>
-            <p>无情链接</p>
-            <a href="https://www.ysjf.com/home" class="cyber-link">影视飓风</a>
-            <br>
-            <a href="https://www.mi.com" class="cyber-link">小米集团</a>
-            
+            <a href="/Public-welfare/Leaveyourmarkontheworld/cxy/" class="cyber-link">在世界留下你的痕迹-CXY</a><br>
+            <a href="https://gystu.top" class="cyber-link" target="_blank">果园编程副站</a><br>
+            <a href="https://caellab.com" class="cyber-link" target="_blank">虚舟实验室</a><br>
+            <a href="https://blog.aznb.top/" class="cyber-link" target="_blank">垃圾桶</a><br>
+            <a href="https://rottybun.com/" class="cyber-link" target="_blank">经开区实验中学</a>
+            <p style="margin-top:0.6rem;">无情链接</p>
+            <a href="https://www.ysjf.com/home" class="cyber-link" target="_blank">影视飓风</a><br>
+            <a href="https://www.mi.com" class="cyber-link" target="_blank">小米集团</a>
         </div>
+
         <div class="footer-section">
             <h3>版本与历史</h3>
-            <br>
             <p><strong>更新日志：</strong><a href="/blog" class="cyber-link">点这里看更新日志</a></p>
             <p><strong>网站版本：</strong>V6.9.3_260704_02TiAmo</p>
             <p><strong>最后更新：</strong>2026年06月22日</p>
-            <p><strong>设计语言：</strong>GAutumn Design 20.1.7<br>
-            <p><strong>版本代号：</strong>TiAmo<br>
-                <small>轻量更新/热更新：2026年07月04日更新-26070204eb91</small>
-            </p>
-            <br>
-           
+            <p><strong>设计语言：</strong>GAutumn Design 20.1.7</p>
+            <p><strong>版本代号：</strong>TiAmo</p>
+            <small>轻量更新/热更新：2026年08月10日更新-26081002</small><br>
+            <small>上次提交SHA：<code>2640d02896fca76f70908c45b29a7a7b8f30eb24</code></small>
         </div>
+
         <div class="footer-section">
             <h3>网站工具</h3>
             <p><strong>当前CDN节点：</strong><br><span id="cdn" class="loading">检测中...</span></p>
             <br>
-            <p><strong>网站档案：</strong><br><small>(建议使用代理访问)</small></p>
-            <a href="https://web.archive.org/web/20250000000000*/https://gy216.github.io" class="cyber-link">Wayback Machine</a>
-            <br>
-            <a href="https://archive.ph/https://gy216.github.io/" class="cyber-link">Archive.today</a>
+            <p><strong>网站档案：</strong><br><small>（建议使用代理访问）</small></p>
+            <a href="https://web.archive.org/web/20250000000000*/https://gy216.github.io" class="cyber-link" target="_blank">Wayback Machine</a><br>
+            <a href="https://archive.ph/https://gy216.github.io/" class="cyber-link" target="_blank">Archive.today</a>
         </div>
     </div>
+
+    <!-- 底部信息区 -->
     <div class="footer-bottom">
-<a href="https://ip.caonima.cc/?domain=gybc.top" title="本站已支持IPv6访问" target="_blank">
-    <img style="width:100px;height:36px;" src="img/ipv6logo.webp" alt="本站已支持IPv6访问">
-</a>
-<a href="https://ssl.caonima.cc/?domain=gybc.top" title="SSL证书安全检测" target="_blank">
-    <img style="width:100px;height:36px;" src="img/sslsafe.webp" alt="SSL证书安全检测">
-</a>
-     <p><a href="https://www.cac.gov.cn/" class="cyber-link">中央网信办违法和不良信息举报中心</a>|<a href="https://www.china-ipv6.cn" class="cyber-link">国家IPV6发展平台</a></p>
-     
-     <script src="//cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js" defer></script>
-今日总访问量 <span id="busuanzi_today_pv"><i class="fa fa-spinner fa-spin"></i></span> 次（数据来源：不蒜子）
-<br>
-本站总访问量 <span id="busuanzi_site_pv"><i class="fa fa-spinner fa-spin"></i></span> 次（自26年04月19日开始统计，数据来源：不蒜子）
+        <a href="https://ip.caonima.cc/?domain=gybc.top" title="本站已支持IPv6访问" target="_blank">
+            <img style="width:100px;height:36px;" src="img/ipv6logo.webp" alt="IPv6">
+        </a>
+        <a href="https://ssl.caonima.cc/?domain=gybc.top" title="SSL证书安全检测" target="_blank">
+            <img style="width:100px;height:36px;" src="img/sslsafe.webp" alt="SSL">
+        </a>
 
+        <p>
+            <a href="https://www.cac.gov.cn/" class="cyber-link" target="_blank">中央网信办违法和不良信息举报中心</a> |
+            <a href="https://www.china-ipv6.cn" class="cyber-link" target="_blank">国家IPv6发展平台</a>
+        </p>
+
+        <script src="//cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js" defer></script>
+        <p>
+            今日总访问量 <span id="busuanzi_today_pv"><i class="fa fa-spinner fa-spin"></i></span> 次（数据来源：不蒜子）<br>
+            本站总访问量 <span id="busuanzi_site_pv"><i class="fa fa-spinner fa-spin"></i></span> 次（自26年04月19日开始统计）
+        </p>
+
+        <hr style="border:0.5px dashed #C0C0C0; width:100%; margin:1.2rem 0;">
     </div>
+
+    <!-- 法律 & Cookie 展开区 -->
     <div class="footer-bottom legal-text">
-        <p>为优化访问体验，本站使用 Cloudflare Web Analytics® 进行流量与性能统计。该服务不收集任何个人数据（如 IP 地址、Cookie 等），所有数据均经匿名化处理后以聚合形式呈现。数据处理可能涉及 Cloudflare 的全球网络节点（包括美国、欧盟等地）。若您不希望参与统计，可使用广告拦截工具；若您不同意此条款，敬请停止使用本网站。<br/>
-        “Cloudflare”、“Cloudflare 徽标”、“Cloudflare Workers”、“GitHub”、“GitHub 徽标”、“GitHub Logo Design”、“Octocat”及“Octocat Logo Design”分别为 Cloudflare, Inc. 和 GitHub, Inc. 在美国及其他国家/地区注册的商标；“Octocat Design”为 GitHub 独家所有的财产。果园编程工作室对前述商标的使用，分别受《Cloudflare 商标指南》与《GitHub Logos and Usage》相关政策约束。科赋锐（北京）信息科技有限公司为 Cloudflare 在中国境内的全资子公司。未经相关商标权利人（Cloudflare, Inc. 或 GitHub, Inc.）事先书面许可，不得以任何方式使用或改编其注册商标、版权作品及其他受保护内容。<br/>
-        本网站所有托管于 GitHub Pages 上的项目及全部文字内容，均基于《果园页面专用许可证》授权提供。此许可证系 MIT 许可证的修改版本，授予用户免费、永久、全球范围内、非排他性的使用、复制、修改及分发权利。相关作品按“原样”提供，不附带任何明示或默示的担保或条件。附加条款可能适用，详见<a href="/License-pages" class="cyber-link">许可页面</a>。<br/>
-        果园编程工作室®、果园编程®、果园 Logo、GAutumn Design、Glyphix、果园页面专用许可证、果园AI HUB、物理旅行者和果园标志为果园编程的商标。<br/>
-        果园编程工作室是由青少年自发组成的社群组织，其性质不属于法定非营利机构或企业，亦不具备企业法人资格。<br/>
-		Copyright © 2021–2026 果园编程® 版权所有<br/>
-		性能和安全由Cloudflare提供，字体加载器为Webfontloader 1.6.28，字体为ZCOOL-Kuaile，字体使用Bootcdn和Font.im进行分发加速</p>
-        <a href="https://icp.gov.moe/?keyword=20260216" target="_blank">萌ICP备20260216号</a>
-    </div>
-</footer>
+
+        <button id="cookieToggle" class="cyber-btn">删除 Cookie</button>
+        <button id="legalToggle" class="cyber-btn">查看法律声明与版权信息</button>
+
+        <!-- Cookie 说明 -->
+        <div id="cookieContent" class="legal-panel">
+            <p>请通过浏览器设置管理 Cookie：</p>
+            <ol>
+                <li>点击地址栏左侧的 <strong>小锁 / 信息图标</strong></li>
+                <li>选择 <strong>Cookies 和站点数据</strong></li>
+                <li>点击 <strong>Cookies 正在使用…</strong></li>
+                <li>选中本站点域名，点击 <strong>删除</strong></li>
+                <li>点击 <strong>完成</strong>，刷新页面即可生效</li>
+            </ol>
+        </div>
+
+        <!-- 法律声明 -->
+        <div id="legalContent" class="legal-panel">
+            <p>
+                “Cloudflare”、“Cloudflare 徽标”、“Cloudflare Workers”、“GitHub”、“GitHub 徽标”、“GitHub Logo Design”、“Octocat”及“Octocat Logo Design”分别为 Cloudflare, Inc. 和 GitHub, Inc. 在美国及其他国家/地区注册的商标；“Octocat Design”为 GitHub 独家所有的财产。果园编程工作室对前述商标的使用，分别受《Cloudflare 商标指南》与《GitHub Logos and Usage》相关政策约束。科赋锐（北京）信息科技有限公司为 Cloudflare 在中国境内的全资子公司。未经相关商标权利人事先书面许可，不得以任何方式使用或改编其注册商标、版权作品及其他受保护内容。
+            </p>
+
+            <p>
+                本网站所有托管于 GitHub Pages 上的项目及全部文字内容，均基于《果园页面专用许可证》授权提供。此许可证系 MIT 许可证的修改版本，授予用户免费、永久、全球范围内、非排他性的使用、复制、修改及分发权利。相关作品按“原样”提供，不附带任何明示或默示的担保或条件。附加条款可能适用，详见
+                <a href="/License-pages" class="cyber-link">许可页面</a>。
+            </p>
+
+            <p>
+                果园编程工作室®、果园编程®、果园 Logo、GAutumn Design、Glyphix、果园页面专用许可证、果园AI HUB、物理旅行者和果园标志为果园编程的商标。
+            </p>
+
+            <p>
+                果园编程工作室是由青少年自发组成的社群组织，其性质不属于法定非营利机构或企业，亦不具备企业法人资格。
+            </p>
+        </div>
+
+        <hr style="border:0.5px dashed #C0C0C0; width:100%; margin:1.2rem 0;">
+
+        <p>
+            为优化访问体验，本站使用 Cloudflare Web Analytics® 进行流量与性能统计。该服务不收集任何个人数据（如 IP 地址、Cookie 等），所有数据均经匿名化处理后以聚合形式呈现。数据处理可能涉及 Cloudflare 的全球网络节点（包括美国、欧盟等地）。若您不希望参与统计，可使用广告拦截工具；若您不同意此条款，敬请停止使用本网站。
+        </p>
+
+        <p>
+            果园编程尽全力支持人工智能的发展，因此本站已经注入轻量级 WebMCP 桥接器，使基于浏览器的 AI 智能体可以读取网页并与之交互。
+        </p>
+
+        <p>Copyright © 2021–2026 果园编程 版权所有</p>
+        <p>性能和安全由 Cloudflare 提供 | cdn.gybc.top 由腾讯云 EdgeOne 提供 | 字体为 ZCOOL-Kuaile</p>
+
+        <p>
+            <a href="https://icp.gov.moe/?keyword=20260216" target="_blank">萌ICP备20260216号</a>
+        </p>
     </div>
 
-    <!-- 彩蛋按钮 -->
+    <!-- 彩蛋 -->
     <div id="lingButton" class="easter-egg">
         <span>彩蛋</span>
     </div>
 
-    <!-- 一言显示 -->
-  <!-- 原代码中的一言部分替换为以下内容 -->
-<div class="yi-yan">
-    <p id="hitokoto-text">正在加载一言……</p>
-    <p id="hitokoto-from"></p>
-</div>
+    <!-- 一言 -->
+    <div class="yi-yan">
+        <p id="hitokoto-text">正在加载一言……</p>
+        <p id="hitokoto-from"></p>
+    </div>
+</footer>
 
+<!-- 样式 -->
+<style>
+.legal-panel {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    margin-top: 0;
+}
+
+.legal-panel.open {
+    max-height: 1200px;
+    opacity: 1;
+    margin-top: 1rem;
+}
+
+.cyber-btn {
+    background: transparent;
+    border: 1px solid #00ffe0;
+    color: #00ffe0;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+}
+
+.cyber-btn:hover {
+    background: #00ffe0;
+    color: #000;
+}
+</style>
+
+<!-- 脚本 -->
+<script>
+function togglePanel(openId) {
+    const panels = ['legalContent', 'cookieContent'];
+    const buttons = {
+        legalContent: 'legalToggle',
+        cookieContent: 'cookieToggle'
+    };
+
+    panels.forEach(id => {
+        const panel = document.getElementById(id);
+        const btn = document.getElementById(buttons[id]);
+
+        if (id === openId) {
+            const willOpen = !panel.classList.contains('open');
+            panel.classList.toggle('open', willOpen);
+            if (btn) {
+                btn.textContent = willOpen
+                    ? (id === 'legalContent' ? '收起法律声明与版权信息' : '收起删除 Cookie 说明')
+                    : (id === 'legalContent' ? '查看法律声明与版权信息' : '删除 Cookie');
+            }
+        } else {
+            panel.classList.remove('open');
+            if (btn) {
+                btn.textContent = id === 'legalContent'
+                    ? '查看法律声明与版权信息'
+                    : '删除 Cookie';
+            }
+        }
+    });
+}
+
+document.getElementById('cookieToggle').addEventListener('click', () => togglePanel('cookieContent'));
+document.getElementById('legalToggle').addEventListener('click', () => togglePanel('legalContent'));
+</script>
+
+
+<!-- 导入JS -->
 <script src="js/yiyan.js"></script>
 <script src="js/cdn.js"></script>
 <script src="js/cookies.js"></script>
@@ -882,8 +954,6 @@ WebFont.load({
 <script src="js/console.js"></script>
 <script src="js/coloregg.js"></script>
 <script src="js/others.js"></script>
-</body>
-</html>
 
 <!--好玩的地方！-->
 <!--嘿嘿-->
