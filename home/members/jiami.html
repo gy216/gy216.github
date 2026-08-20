@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Token 加密工具</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: #e0e0e0;
+  }
+  .container {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 36px 32px;
+    width: 100%;
+    max-width: 560px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  h1 {
+    font-size: 22px;
+    margin-bottom: 6px;
+    background: linear-gradient(90deg, #a78bfa, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #9ca3af;
+    margin-bottom: 28px;
+  }
+  label {
+    display: block;
+    font-size: 13px;
+    color: #c4b5fd;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  input[type="text"] {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(0,0,0,0.25);
+    color: #f3f4f6;
+    font-size: 15px;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+  }
+  input[type="text"]:focus {
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.25);
+  }
+  button {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform .15s, box-shadow .2s, opacity .2s;
+    white-space: nowrap;
+  }
+  button:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,58,237,0.4); }
+  button:active { transform: translateY(0); }
+  button:disabled { opacity: .6; cursor: not-allowed; }
+
+  .result-box {
+    margin-top: 8px;
+    padding: 16px;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.08);
+    min-height: 56px;
+    word-break: break-all;
+    font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+    font-size: 14px;
+    color: #d1fae5;
+    line-height: 1.6;
+    position: relative;
+  }
+  .result-box .placeholder { color: #6b7280; font-family: inherit; font-size: 13px; }
+  .copy-btn {
+    margin-top: 12px;
+    padding: 8px 16px;
+    font-size: 13px;
+    border-radius: 8px;
+    background: rgba(16,185,129,0.15);
+    color: #6ee7b7;
+    border: 1px solid rgba(16,185,129,0.3);
+  }
+  .copy-btn:hover { background: rgba(16,185,129,0.25); }
+
+  .batch-section { margin-top: 28px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; }
+  .batch-section h3 { font-size: 14px; color: #c4b5fd; margin-bottom: 10px; }
+  textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(0,0,0,0.25);
+    color: #f3f4f6;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    resize: vertical;
+    margin-bottom: 12px;
+  }
+  textarea:focus { border-color: #7c3aed; box-shadow: 0 0 0 3px rgba(124,58,237,0.25); }
+  .batch-results { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+  .batch-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.06);
+    font-size: 13px;
+  }
+  .batch-item .qq { color: #a78bfa; font-weight: 600; min-width: 100px; }
+  .batch-item .token { color: #d1fae5; font-family: monospace; word-break: break-all; text-align: right; flex: 1; margin: 0 10px; }
+  .batch-item .copy-one {
+    padding: 4px 10px; font-size: 12px; border-radius: 6px;
+    background: rgba(16,185,129,0.15); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3);
+    cursor: pointer; white-space: nowrap;
+  }
+  .toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: #10b981; color: #fff; padding: 10px 24px; border-radius: 8px;
+    font-size: 14px; opacity: 0; transition: opacity .3s, transform .3s; pointer-events: none;
+    z-index: 999;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .footer { text-align: center; margin-top: 24px; font-size: 12px; color: #4b5563; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🔐 Token 加密工具</h1>
+  <p class="subtitle">基于 AES-GCM + SHA-256 · 纯前端运行，数据不离开浏览器</p>
+
+  <!-- 单个 QQ 加密 -->
+  <label for="qqInput">输入 QQ 号</label>
+  <div class="input-group">
+    <input type="text" id="qqInput" placeholder="例如：386498317" autocomplete="off" />
+    <button id="encryptBtn">加密</button>
+  </div>
+
+  <label>加密结果</label>
+  <div class="result-box" id="resultBox">
+    <span class="placeholder">点击「加密」后结果将显示在这里</span>
+  </div>
+  <button class="copy-btn" id="copyBtn" style="display:none;">📋 复制结果</button>
+
+  <!-- 批量加密 -->
+  <div class="batch-section">
+    <h3>📦 批量加密（每行一个 QQ 号）</h3>
+    <textarea id="batchInput" placeholder="386498317&#10;123456789&#10;987654321"></textarea>
+    <button id="batchBtn">批量加密</button>
+    <div class="batch-results" id="batchResults"></div>
+  </div>
+
+  <p class="footer">算法：PBKDF2-style 密钥派生（SHA-256）→ AES-GCM-256 加密 → Base64URL 编码</p>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const PASSWORD = "386498317";
+const enc = new TextEncoder();
+
+async function makeToken(qq) {
+  const keyMaterial = await crypto.subtle.digest("SHA-256", enc.encode(PASSWORD));
+  const key = await crypto.subtle.importKey(
+    "raw", keyMaterial, { name: "AES-GCM" }, false, ["encrypt"]
+  );
+  const ivHash = await crypto.subtle.digest("SHA-256", enc.encode("iv" + PASSWORD));
+  const iv = new Uint8Array(ivHash).slice(0, 12);
+  const cipher = await crypto.subtle.encrypt(
+    { name: "AES-GCM", iv }, key, enc.encode(String(qq))
+  );
+  const bytes = new Uint8Array(cipher);
+  let s = btoa(String.fromCharCode(...bytes));
+  return s.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+// ---------- 单个加密 ----------
+const qqInput   = document.getElementById("qqInput");
+const encryptBtn = document.getElementById("encryptBtn");
+const resultBox  = document.getElementById("resultBox");
+const copyBtn    = document.getElementById("copyBtn");
+let   lastToken  = "";
+
+encryptBtn.addEventListener("click", async () => {
+  const qq = qqInput.value.trim();
+  if (!qq) { showToast("请输入 QQ 号", true); return; }
+  encryptBtn.disabled = true;
+  encryptBtn.textContent = "加密中…";
+  try {
+    lastToken = await makeToken(qq);
+    resultBox.innerHTML = `<span style="color:#d1fae5">${lastToken}</span>`;
+    copyBtn.style.display = "inline-block";
+  } catch (e) {
+    resultBox.innerHTML = `<span style="color:#fca5a5">错误：${e.message}</span>`;
+  } finally {
+    encryptBtn.disabled = false;
+    encryptBtn.textContent = "加密";
+  }
+});
+
+// 回车也能触发
+qqInput.addEventListener("keydown", e => { if (e.key === "Enter") encryptBtn.click(); });
+
+// ---------- 批量加密 ----------
+document.getElementById("batchBtn").addEventListener("click", async () => {
+  const raw = document.getElementById("batchInput").value.trim();
+  if (!raw) { showToast("请先输入 QQ 号", true); return; }
+  const list = raw.split(/\s*\n\s*/).map(s => s.trim()).filter(Boolean);
+  const container = document.getElementById("batchResults");
+  container.innerHTML = "<span style='color:#9ca3af;font-size:13px'>加密中…</span>";
+
+  const results = [];
+  for (const qq of list) {
+    try {
+      const token = await makeToken(qq);
+      results.push({ qq, token, ok: true });
+    } catch (e) {
+      results.push({ qq, token: "ERROR", ok: false });
+    }
+  }
+
+  container.innerHTML = results.map((r, i) => `
+    <div class="batch-item">
+      <span class="qq">${r.qq}</span>
+      <span class="token" style="color:${r.ok ? '#d1fae5' : '#fca5a5'}">${r.token}</span>
+      <button class="copy-one" data-token="${r.token}" ${r.ok ? "" : "disabled"}>复制</button>
+    </div>
+  `).join("");
+
+  // 绑定复制按钮
+  container.querySelectorAll(".copy-one").forEach(btn => {
+    btn.addEventListener("click", () => {
+      navigator.clipboard.writeText(btn.dataset.token).then(() => showToast("已复制"));
+    });
+  });
+});
+
+// ---------- 复制 ----------
+copyBtn.addEventListener("click", () => {
+  if (!lastToken) return;
+  navigator.clipboard.writeText(lastToken).then(() => showToast("已复制到剪贴板"));
+});
+
+// ---------- Toast ----------
+function showToast(msg, isError) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.background = isError ? "#ef4444" : "#10b981";
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 1800);
+}
+</script>
+</body>
+</html>

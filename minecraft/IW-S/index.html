@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MC 服务器在线查询</title>
+<style>
+/* ===== Reset ===== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+/* ===== 变量 ===== */
+:root{
+  --gold:#facc15;
+  --gold-soft:#fde68a;
+  --gold-dim:#b8860b;
+  --bg-0:#05070f;
+  --bg-1:#0b0f1e;
+  --bg-2:#11162a;
+  --card-bg:rgba(16,20,38,.72);
+  --border:rgba(250,204,51,.12);
+  --text:#e8ecf8;
+  --text-dim:#8893b8;
+  --radius:24px;
+  --shadow:0 20px 60px -12px rgba(0,0,0,.7);
+}
+
+/* ===== Body ===== */
+html,body{
+  height:100%;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif;
+  background:var(--bg-0);
+  color:var(--text);
+  /* 不禁止滚动，只做基础设置 */
+  overflow-x:hidden;
+}
+
+/* 背景渐变 + 网格 */
+body{
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%,rgba(250,204,51,.06),transparent 70%),
+    radial-gradient(ellipse 60% 50% at 80% 90%,rgba(59,130,246,.05),transparent 70%),
+    linear-gradient(180deg,var(--bg-0) 0%,#080c1a 100%);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* 网格装饰线 */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ===== 主容器 ===== */
+.app{
+  position:relative;
+  z-index:1;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:clamp(12px,3vh,28px) clamp(10px,4vw,24px);
+  width:100%;
+  max-width:820px;
+  margin:0 auto;
+}
+
+/* ===== 卡片 ===== */
+.card{
+  width:100%;
+  background:var(--card-bg);
+  backdrop-filter:blur(16px) saturate(160%);
+  -webkit-backdrop-filter:blur(16px) saturate(160%);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:clamp(18px,4vh,32px) clamp(14px,4vw,28px);
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  gap:clamp(14px,3vh,22px);
+}
+
+/* ===== 标题区 ===== */
+.title-row{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px 16px;
+}
+.title-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+}
+/* 纯CSS图标：方块 */
+.cube-icon{
+  width:28px;height:28px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--gold),var(--gold-dim));
+  border-radius:6px;
+  position:relative;
+  box-shadow:0 0 12px rgba(250,204,51,.35);
+}
+.cube-icon::before{
+  content:'';
+  position:absolute;
+  top:4px;left:4px;right:4px;bottom:4px;
+  border:2px solid rgba(0,0,0,.25);
+  border-radius:3px;
+}
+h1{
+  font-size:clamp(1.1rem,4.5vw,1.6rem);
+  font-weight:700;
+  letter-spacing:.5px;
+  background:linear-gradient(90deg,var(--gold-soft),#c9a84c);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  white-space:nowrap;
+}
+
+/* 服务器信息标签 */
+.server-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px 8px;
+}
+.tag{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  background:rgba(250,204,51,.08);
+  border:1px solid rgba(250,204,51,.15);
+  color:var(--text-dim);
+  font-size:.8rem;
+  padding:4px 12px;
+  border-radius:999px;
+}
+/* 纯CSS小圆点图标 */
+.tag-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--gold);
+  box-shadow:0 0 6px var(--gold);
+  flex-shrink:0;
+}
+
+/* ===== 控制栏 ===== */
+.controls{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px 14px;
+  background:rgba(0,0,0,.22);
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:16px;
+  padding:10px 16px;
+}
+.countdown{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+/* 环形进度 */
+.ring{
+  --p:100%;
+  width:42px;height:42px;border-radius:50%;
+  background:conic-gradient(var(--gold) var(--p),#1e2540 var(--p));
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+  transition:background .3s;
+}
+.ring-inner{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--bg-1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;font-weight:700;color:#fff;
+}
+.countdown-text{
+  font-size:.88rem;
+  color:var(--text-dim);
+}
+.countdown-text strong{
+  color:var(--gold);
+  font-weight:600;
+}
+
+/* 按钮组 */
+.btn-group{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 16px;
+  border-radius:12px;
+  border:1px solid rgba(250,204,51,.15);
+  background:rgba(250,204,51,.06);
+  color:var(--text);
+  font-size:.88rem;
+  cursor:pointer;
+  transition:all .2s;
+  font-family:inherit;
+  white-space:nowrap;
+}
+.btn:hover{
+  background:rgba(250,204,51,.15);
+  border-color:rgba(250,204,51,.35);
+  transform:translateY(-1px);
+}
+.btn:active{transform:scale(.96)}
+.btn.active{
+  background:rgba(250,204,51,.18);
+  border-color:rgba(250,204,51,.4);
+  color:var(--gold);
+}
+/* 纯CSS按钮图标 */
+.btn-icon-refresh{
+  width:14px;height:14px;
+  border:2px solid currentColor;
+  border-top-color:transparent;
+  border-radius:50%;
+  flex-shrink:0;
+  transition:transform .5s;
+}
+.btn:hover .btn-icon-refresh{transform:rotate(180deg)}
+.btn-icon-pause{
+  width:10px;height:12px;
+  border-left:3px solid currentColor;
+  border-right:3px solid currentColor;
+  flex-shrink:0;
+}
+
+/* ===== 状态图片区 ===== */
+.img-box{
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  background:#080b15;
+  box-shadow:0 8px 24px -8px rgba(0,0,0,.6);
+  border:1px solid rgba(250,204,51,.08);
+  /* 保持16:9比例 */
+  aspect-ratio:16/9;
+  width:100%;
+}
+.img-box img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  display:block;
+  background:#0a0d18;
+}
+
+/* 加载遮罩 */
+.loader{
+  position:absolute;
+  inset:0;
+  background:rgba(5,8,18,.72);
+  backdrop-filter:blur(2px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .25s;
+  z-index:5;
+}
+.loader.show{opacity:1;visibility:visible}
+/* CSS spinner */
+.spinner{
+  width:40px;height:40px;
+  border:4px solid rgba(255,255,255,.1);
+  border-top-color:var(--gold);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-text{font-size:.88rem;color:var(--text-dim)}
+
+/* ===== 状态栏 ===== */
+.status-bar{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:8px 20px;
+  padding-top:4px;
+}
+.status-item{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:.82rem;
+  color:var(--text-dim);
+}
+.status-dot{
+  width:8px;height:8px;border-radius:50%;
+  flex-shrink:0;
+}
+.status-dot.online{background:#4ade80;box-shadow:0 0 8px #4ade80;animation:pulse 2s infinite}
+.status-dot.offline{background:#f87171;box-shadow:0 0 8px #f87171}
+@keyframes pulse{
+  0%,100%{opacity:1}
+  50%{opacity:.5}
+}
+
+/* ===== Toast ===== */
+.toast{
+  position:fixed;
+  bottom:max(16px,env(safe-area-inset-bottom,16px));
+  left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:rgba(14,18,32,.9);
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(250,204,51,.15);
+  color:#fff;
+  padding:10px 22px;
+  border-radius:999px;
+  font-size:.88rem;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  opacity:0;
+  visibility:hidden;
+  transition:all .3s;
+  z-index:999;
+  max-width:90vw;
+  text-align:center;
+}
+.toast.show{
+  opacity:1;visibility:visible;
+  transform:translateX(-50%) translateY(0);
+}
+.toast-dot{
+  width:8px;height:8px;border-radius:50%;flex-shrink:0;
+}
+.toast.success .toast-dot{background:#4ade80;box-shadow:0 0 8px #4ade80}
+.toast.error .toast-dot{background:#f87171;box-shadow:0 0 8px #f87171}
+
+/* ===== 响应式 ===== */
+@media(max-width:600px){
+  .title-row{flex-direction:column;align-items:flex-start}
+  .controls{flex-direction:column;align-items:stretch}
+  .countdown{justify-content:center}
+  .btn-group{justify-content:center}
+  .btn{flex:1;justify-content:center}
+  .status-bar{gap:6px 14px}
+}
+@media(max-width:380px){
+  .card{padding:16px 12px}
+  h1{font-size:1.15rem}
+  .tag{font-size:.75rem;padding:3px 10px}
+}
+
+/* 高屏适配：确保内容不溢出 */
+@media(min-height:900px){
+  .app{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="card">
+
+    <!-- 标题 -->
+    <div class="title-row">
+      <div class="title-left">
+        <div class="cube-icon"></div>
+        <h1>MC 服务器状态</h1>
+      </div>
+      <div class="server-tags">
+        <span class="tag"><span class="tag-dot"></span>mcservers.gybc.top</span>
+        <span class="tag"><span class="tag-dot" style="background:#60a5fa;box-shadow:0 0 6px #60a5fa"></span>端口 30821</span>
+        <span class="tag"><span class="tag-dot" style="background:#34d399;box-shadow:0 0 6px #34d399"></span>JE 1.21+</span>
+      </div>
+    </div>
+
+    <!-- 控制栏 -->
+    <div class="controls">
+      <div class="countdown">
+        <div class="ring" id="ring" style="--p:100%">
+          <div class="ring-inner" id="ringNum">5</div>
+        </div>
+        <div class="countdown-text">
+          下次刷新 <strong id="cdText">5</strong> 秒后
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn" id="btnRefresh">
+          <span class="btn-icon-refresh"></span>
+          立即刷新
+        </button>
+        <button class="btn" id="btnPause">
+          <span class="btn-icon-pause" id="pauseIcon"></span>
+          <span id="pauseText">暂停</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 状态图片 -->
+    <div class="img-box">
+      <img id="statusImg"
+           src="https://motd.minebbs.com/api/status_img?ip=mcservers.gybc.top&port=30821&stype=je&theme=dark_tech"
+           alt="MC服务器状态">
+      <div class="loader" id="loader">
+        <div class="spinner"></div>
+        <span class="loader-text">正在获取最新状态...</span>
+      </div>
+    </div>
+
+    <!-- 底部状态 -->
+    <div class="status-bar">
+      <span class="status-item">
+        <span class="status-dot online" id="statusDot"></span>
+        <span id="statusText">监控运行中</span>
+      </span>
+      <span class="status-item">
+        <span class="status-dot" style="background:var(--gold);box-shadow:0 0 6px var(--gold)"></span>
+        每 5 秒自动更新
+      </span>
+      <span class="status-item">
+        <span class="status-dot" style="background:#a78bfa;box-shadow:0 0 6px #a78bfa"></span>
+        数据来源 MineBBS API
+      </span>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span class="toast-dot"></span>
+  <span id="toastMsg">状态已更新</span>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  // === 配置 ===
+  var CFG = {
+    url:'https://motd.minebbs.com/api/status_img',
+    ip:'mcservers.gybc.top',
+    port:'30821',
+    stype:'je',
+    theme:'dark_tech',
+    interval:5000
+  };
+
+  // === DOM ===
+  var img       = document.getElementById('statusImg');
+  var loader    = document.getElementById('loader');
+  var ring      = document.getElementById('ring');
+  var ringNum   = document.getElementById('ringNum');
+  var cdText    = document.getElementById('cdText');
+  var btnRf     = document.getElementById('btnRefresh');
+  var btnPause  = document.getElementById('btnPause');
+  var pauseText = document.getElementById('pauseText');
+  var pauseIcon = document.getElementById('pauseIcon');
+  var toast     = document.getElementById('toast');
+  var toastMsg  = document.getElementById('toastMsg');
+  var statusDot = document.getElementById('statusDot');
+  var statusText= document.getElementById('statusText');
+
+  // === 状态 ===
+  var sec = 5;
+  var paused = false;
+  var loading = false;
+  var timer = null;
+  var cdTimer = null;
+  var toastTimer = null;
+
+  // === 工具函数 ===
+  function buildUrl(){
+    return CFG.url+'?ip='+CFG.ip+'&port='+CFG.port+'&stype='+CFG.stype+'&theme='+CFG.theme+'&_t='+Date.now();
+  }
+
+  function setProgress(s){
+    var pct = (s/5)*100;
+    ring.style.setProperty('--p', pct+'%');
+    ringNum.textContent = s;
+    cdText.textContent = s;
+  }
+
+  function showToast(msg, type){
+    toast.className = 'toast show ' + (type||'success');
+    toastMsg.textContent = msg;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){
+      toast.classList.remove('show');
+    }, 2600);
+  }
+
+  // === 核心：拉取图片 ===
+  function fetchImg(){
+    if(loading) return;
+    loading = true;
+    loader.classList.add('show');
+
+    var tmp = new Image();
+    tmp.onload = function(){
+      img.src = buildUrl();
+      loading = false;
+      loader.classList.remove('show');
+      sec = 5;
+      setProgress(5);
+      // 更新状态指示
+      statusDot.className = 'status-dot online';
+      statusText.textContent = '监控运行中 · 已更新';
+      showToast('✅ 服务器状态已更新', 'success');
+    };
+    tmp.onerror = function(){
+      loading = false;
+      loader.classList.remove('show');
+      sec = 5;
+      setProgress(5);
+      statusDot.className = 'status-dot offline';
+      statusText.textContent = '获取失败';
+      showToast('⚠️ 获取状态失败，请检查网络', 'error');
+    };
+    tmp.src = buildUrl();
+  }
+
+  // === 倒计时 ===
+  function startCD(){
+    clearInterval(cdTimer);
+    cdTimer = setInterval(function(){
+      if(paused || loading) return;
+      sec--;
+      if(sec <= 0){
+        sec = 5;
+        if(!paused && !loading) fetchImg();
+      }
+      setProgress(sec);
+    }, 1000);
+  }
+
+  // === 主循环 ===
+  function startTimer(){
+    clearInterval(timer);
+    timer = setInterval(function(){
+      if(!paused && !loading) fetchImg();
+    }, CFG.interval);
+  }
+
+  function startAll(){
+    if(paused) return;
+    sec = 5;
+    setProgress(5);
+    startCD();
+    startTimer();
+  }
+
+  function stopAll(){
+    clearInterval(timer);
+    clearInterval(cdTimer);
+    timer = null;
+    cdTimer = null;
+  }
+
+  // === 手动刷新 ===
+  btnRf.addEventListener('click', function(){
+    if(loading) return;
+    fetchImg();
+    if(!paused){ sec=5; setProgress(5); }
+  });
+
+  // === 暂停/恢复 ===
+  btnPause.addEventListener('click', function(){
+    paused = !paused;
+    if(paused){
+      stopAll();
+      btnPause.classList.add('active');
+      pauseText.textContent = '恢复';
+      // 暂停图标变为播放三角
+      pauseIcon.style.borderLeft = '6px solid currentColor';
+      pauseIcon.style.borderRight = 'none';
+      pauseIcon.style.width = '0';
+      pauseIcon.style.height = '0';
+      pauseIcon.style.borderTop = '7px solid transparent';
+      pauseIcon.style.borderBottom = '7px solid transparent';
+      statusText.textContent = '已暂停';
+      showToast('⏸️ 自动刷新已暂停', 'success');
+    } else {
+      btnPause.classList.remove('active');
+      pauseText.textContent = '暂停';
+      // 恢复为暂停双竖线
+      pauseIcon.style.cssText = '';
+      pauseIcon.className = 'btn-icon-pause';
+      statusText.textContent = '监控运行中';
+      startAll();
+      showToast('▶️ 自动刷新已恢复', 'success');
+    }
+  });
+
+  // === 页面可见性 ===
+  document.addEventListener('visibilitychange', function(){
+    if(document.hidden){
+      if(!paused) stopAll();
+    } else {
+      if(!paused){ startAll(); }
+    }
+  });
+
+  // === 初始化 ===
+  img.addEventListener('load', function(){ loader.classList.remove('show'); });
+  img.addEventListener('error', function(){
+    loader.classList.remove('show');
+    showToast('⚠️ 图片加载失败', 'error');
+  });
+
+  // 首次加载
+  img.src = buildUrl();
+  startAll();
+
+})();
+</script>
+</body>
+</html>

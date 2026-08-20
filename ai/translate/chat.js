@@ -8,47 +8,47 @@
 // 配置区域：分离 API 配置和核心逻辑
 const API_CONFIG = {
     qwen3: {
-        key: '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',
+        key: 'API_NO-KEY',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'qwen/qwen3-235b-a22b:free'
     },
     deepseek: {
-        key: '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',
+        key: 'API_NO-KEY',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'deepseek/deepseek-r1-distill-qwen-32b:free'
     },
     gemini: {
-        key: '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',
+        key: 'API_NO-KEY',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'google/gemma-3-27b-it:free'
     },
     kimi: {
-        key: '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',
+        key: 'API_NO-KEY',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'moonshotai/moonlight-16b-a3b-instruct:free'
     },
     wrphi4: {
-        key: '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',
+        key: 'API_NO-KEY',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'microsoft/phi-4-reasoning-plus:free'
     },
     qwen330b: {
-        key: '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',
+        key: 'API_NO-KEY',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'qwen/qwen3-30b-a3b:free'
     },
     Llama: {
-        key: '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',
+        key: 'API_NO-KEY',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'nvidia/llama-3.3-nemotron-super-49b-v1:free'
     },
     MXDS: {
-        key: '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',
+        key: 'API_NO-KEY',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'tngtech/deepseek-r1t-chimera:free'
     },
     Dolphin: {
-        key: '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',
+        key: 'API_NO-KEY',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'cognitivecomputations/dolphin3.0-r1-mistral-24b:free'
     },

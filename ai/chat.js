@@ -8,75 +8,75 @@
 // 配置区域：分离 API 配置和核心逻辑
 const API_CONFIG = {
     qwen3: {
-        key: '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',
+        key: 'no_api（此页面已废弃）',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'qwen/qwen3-235b-a22b:free'
     },
     dsv3: {
-        key: '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',
+        key: 'no_api（此页面已废弃）',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'deepseek/deepseek-chat-v3-0324:free'
     },
     
     dsr1: {
-        key: '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',
+        key: 'no_api（此页面已废弃）',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'deepseek/deepseek-r1-0528:free'
     },
     gemini: {
-        key: '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',
+        key: 'no_api（此页面已废弃）',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'google/gemma-3-27b-it:free'
     },
     hunyuan: {
-        key: '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',
+        key: 'no_api（此页面已废弃）',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'tencent/hunyuan-a13b-instruct:free'
     },
     kimidev: {
-        key: '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',
+        key: 'no_api（此页面已废弃）',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'moonshotai/kimi-dev-72b:free'
         
     },
     kimisee: {
-        key: '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',
+        key: 'no_api（此页面已废弃）',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'moonshotai/kimi-vl-a3b-thinking:free'
         
     },
     wrphi4: {
-        key: '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',
+        key: 'no_api（此页面已废弃）',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'microsoft/phi-4-reasoning-plus:free'
     },
     qwen330b: {
-        key: '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',
+        key: 'no_api（此页面已废弃）',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'qwen/qwen3-30b-a3b:free'
     },
     Llama: {
-        key: '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',
+        key: 'no_api（此页面已废弃）',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'nvidia/llama-3.1-nemotron-ultra-253b-v1:free'
     },
     MXDS: {
-        key: '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',
+        key: 'no_api（此页面已废弃）',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'tngtech/deepseek-r1t-chimera:free'
     },
     Dolphin: {
-        key: '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',
+        key: 'no_api（此页面已废弃）',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'cognitivecomputations/dolphin3.0-r1-mistral-24b:free'
     },
     Mistral: {
-        key: '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',
+        key: 'no_api（此页面已废弃）',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'mistralai/mistral-7b-instruct:free'
     },
      DeepHermes: {
-        key: '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',
+        key: 'no_api（此页面已废弃）',
         url: 'https://openrouter.ai/api/v1/chat/completions',
         model: 'nousresearch/deephermes-3-llama-3-8b-preview:free'
     },
